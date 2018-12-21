@@ -1,30 +1,7 @@
-image: Qt Creator 4.8.0
-
-platform:
-  - x64
- 
-configuration:
-  - Release
-  - Debug
-
 install:
-    - git submodule update --init --recursive
-
-before_build:
-    - cmake -G "Qt Creator 4.8.0 Win64" .
+  - set QTDIR=C:\Qt\5.5\mingw492_32
+  - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin
 
 build_script:
-    # скрипт сборки проекта:
-    - mkdir build
-    - cd build
-    - cmake .. %CMAKE_CONFIGURE_FLAGS%
-    - cmake --build . %CMAKE_BUILD_FLAGS%
-    - cmake --build . --config Release -- %MSBUILD_ARGS%
-
-build:
-  project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).pro
-
-test_script:
-    # скрипт тестирования проекта:
-    - ctest -C %CONFIGURATION% --output-on-failure
- 
+  - qmake wyde.pro
+  - mingw32-make
