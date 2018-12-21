@@ -34,10 +34,6 @@
   <property name="windowTitle">
    <string>WYDE - IDE for WYS</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>pic.ico</normaloff>pic.ico</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
@@ -171,7 +167,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuOpen">
