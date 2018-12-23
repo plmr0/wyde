@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QStringList>
 #include <QTextStream>
+#include <QWindow>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -75,6 +76,10 @@ void MainWindow::on_actionOpen_triggered()
       inputFile.close();
    }
 
+   alreadySaved = true;
+   eFile = currentFile;
+   this->setWindowTitle(mainTitle + " - " + eFile);
+
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -117,6 +122,7 @@ void MainWindow::on_actionSave_triggered()
         }
         eFile = outputFileLocation;
         alreadySaved = true;
+        this->setWindowTitle(mainTitle + " - " + eFile);
     }
 }
 
@@ -142,4 +148,5 @@ void MainWindow::on_actionSave_as_triggered()
         }
     }
     eFile = outputFileLocation;
+    this->setWindowTitle(mainTitle + " - " + eFile);
 }
