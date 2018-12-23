@@ -32,7 +32,9 @@ MainWindow::MainWindow(QWidget *parent) :
            }
            _inputFile.close();
         }
-
+        alreadySaved = true;
+        eFile = _arg.at(1);
+        this->setWindowTitle(mainTitle + " - " + eFile);
     }
 
 }
