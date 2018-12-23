@@ -26,7 +26,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QString mainTitle = "WYDE - IDE for WIS";
+    QString mainTitle = "WYDE - IDE for WYS";
     QString desktop;
     QStringList _arg;
     QString eFile;
