@@ -4,12 +4,33 @@
 #include <QFileDialog>
 #include <QTextEdit>
 #include <QFile>
+#include <QStringList>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    _arg = QCoreApplication::arguments();
+
+    if (_arg.length() > 1 && _arg.length() == 2) {
+
+        QString _line;
+        QFile _inputFile(_arg.at(1));
+
+        if (_inputFile.open(QIODevice::ReadOnly))
+        {
+           while (!_inputFile.atEnd())
+           {
+              _line = _inputFile.readLine();
+              ui->textEdit->insertPlainText(_line);
+           }
+           _inputFile.close();
+        }
+
+    }
+
 }
 
 MainWindow::~MainWindow()
@@ -24,11 +45,17 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_actionOpen_triggered()
 {
-   current_file = QFileDialog::getOpenFileName(this,
-          tr("Open File"), "C:\\Users\\Ilya\\Desktop\\wys", tr("WYS files (*.wys)"));
+
+   QString name = qgetenv("USER");
+       if (name.isEmpty())
+           name = qgetenv("USERNAME");
+
+   QString currentFile;
+   currentFile = QFileDialog::getOpenFileName(this,
+          tr("Open File"), "C:\\Users\\" + name + "\\Desktop", tr("WYS files (*.wys)"));
 
    QString line;
-   QFile inputFile(current_file);
+   QFile inputFile(currentFile);
 
    if (inputFile.open(QIODevice::ReadOnly))
    {

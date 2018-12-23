@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+win32:RC_ICONS += icon.ico
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp
