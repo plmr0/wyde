@@ -1,10 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QException>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextEdit>
 #include <QFile>
 #include <QStringList>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
         QString _line;
         QFile _inputFile(_arg.at(1));
+        eFile = _arg.at(1);
 
         if (_inputFile.open(QIODevice::ReadOnly))
         {
@@ -49,10 +52,15 @@ void MainWindow::on_actionOpen_triggered()
    QString name = qgetenv("USER");
        if (name.isEmpty())
            name = qgetenv("USERNAME");
+   desktop = "C:\\Users\\" + name + "\\Desktop";
 
    QString currentFile;
-   currentFile = QFileDialog::getOpenFileName(this,
-          tr("Open File"), "C:\\Users\\" + name + "\\Desktop", tr("WYS files (*.wys)"));
+
+   try {
+       currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
+   } catch (QException e) {
+
+   }
 
    QString line;
    QFile inputFile(currentFile);
@@ -67,4 +75,71 @@ void MainWindow::on_actionOpen_triggered()
       inputFile.close();
    }
 
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    if (alreadySaved) {
+        QString str = ui->textEdit->toPlainText();
+        QStringList strList = str.split('\n');
+        QFile file(eFile);
+        if (file.open(QIODevice::WriteOnly))
+        {
+            int i = 0;
+            QTextStream stream(&file);
+            stream.setCodec("UTF-8");
+            while (true) {
+                stream << strList.at(i) + "\n";
+                i++;
+                if (i==strList.size()) break;
+            }
+        }
+    }
+    else {
+        QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
+        QFile f(outputFileLocation);
+        f.open( QIODevice::WriteOnly );
+        f.close();
+        eFile = outputFileLocation;
+        QString str = ui->textEdit->toPlainText();
+        QStringList strList = str.split('\n');
+        QFile file(eFile);
+        if (file.open(QIODevice::WriteOnly))
+        {
+            int i = 0;
+            QTextStream stream(&file);
+            stream.setCodec("UTF-8");
+            while (true) {
+                stream << strList.at(i) + "\n";
+                i++;
+                if (i==strList.size()) break;
+            }
+        }
+        eFile = outputFileLocation;
+        alreadySaved = true;
+    }
+}
+
+void MainWindow::on_actionSave_as_triggered()
+{
+    QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
+    QFile f(outputFileLocation);
+    f.open( QIODevice::WriteOnly );
+    f.close();
+    eFile = outputFileLocation;
+    QString str = ui->textEdit->toPlainText();
+    QStringList strList = str.split('\n');
+    QFile file(eFile);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        int i = 0;
+        QTextStream stream(&file);
+        stream.setCodec("UTF-8");
+        while (true) {
+            stream << strList.at(i) + "\n";
+            i++;
+            if (i==strList.size()) break;
+        }
+    }
+    eFile = outputFileLocation;
 }

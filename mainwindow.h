@@ -20,9 +20,16 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionSave_triggered();
+
+    void on_actionSave_as_triggered();
+
 private:
     Ui::MainWindow *ui;
+    QString desktop;
     QStringList _arg;
+    QString eFile;
+    bool alreadySaved = false;
 };
 
 #endif // MAINWINDOW_H
