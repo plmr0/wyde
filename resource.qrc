@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>img/close.ico</file>
+        <file>img/new.ico</file>
+        <file>img/save.ico</file>
+        <file>img/icon.ico</file>
+        <file>img/open.ico</file>
+        <file>img/exit.ico</file>
+    </qresource>
+</RCC>

@@ -1,11 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QAction>
 #include <QException>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QTextEdit>
 #include <QFile>
+#include <QFileDialog>
+#include <QMessageBox>
 #include <QStringList>
+#include <QTextEdit>
 #include <QTextStream>
 #include <QWindow>
 
@@ -15,9 +16,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    eFile = ' ';
+
     _arg = QCoreApplication::arguments();
 
-    if (_arg.length() > 1 && _arg.length() == 2) {
+    if (_arg.length() > 1 && _arg.length() == 2)
+    {
 
         QString _line;
         QFile _inputFile(_arg.at(1));
@@ -35,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
         alreadySaved = true;
         eFile = _arg.at(1);
         this->setWindowTitle(mainTitle + " - " + eFile);
+        ui->actionClose_file->setEnabled(true);
     }
-
 }
 
 MainWindow::~MainWindow()
@@ -44,9 +48,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_actionNew_triggered()
 {
-
+    QString outputFileLocation;
+    do
+    {
+    outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
+    } while (outputFileLocation.length() == 0);
+    QFile f(outputFileLocation);
+    f.open( QIODevice::WriteOnly );
+    f.close();
+    eFile = outputFileLocation;
+    QString str = ui->textEdit->toPlainText();
+    QStringList strList = str.split('\n');
+    QFile file(eFile);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        int i = 0;
+        QTextStream stream(&file);
+        stream.setCodec("UTF-8");
+        while (true) {
+            stream << strList.at(i) + "\n";
+            i++;
+            if (i==strList.size()) break;
+        }
+    }
+    eFile = outputFileLocation;
+    alreadySaved = true;
+    this->setWindowTitle(mainTitle + " - " + eFile);
+    ui->actionClose_file->setEnabled(true);
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -59,9 +89,11 @@ void MainWindow::on_actionOpen_triggered()
 
    QString currentFile;
 
-   try {
-       currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
-   } catch (QException e) {
+   try
+   {
+        currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
+   } catch (QException e)
+   {
 
    }
 
@@ -81,12 +113,14 @@ void MainWindow::on_actionOpen_triggered()
    alreadySaved = true;
    eFile = currentFile;
    this->setWindowTitle(mainTitle + " - " + eFile);
+   ui->actionClose_file->setEnabled(true);
 
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-    if (alreadySaved) {
+    if (alreadySaved)
+    {
         QString str = ui->textEdit->toPlainText();
         QStringList strList = str.split('\n');
         QFile file(eFile);
@@ -95,15 +129,21 @@ void MainWindow::on_actionSave_triggered()
             int i = 0;
             QTextStream stream(&file);
             stream.setCodec("UTF-8");
-            while (true) {
+            while (true)
+            {
                 stream << strList.at(i) + "\n";
                 i++;
                 if (i==strList.size()) break;
             }
         }
     }
-    else {
-        QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
+    else
+    {
+        QString outputFileLocation;
+        do
+        {
+        outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
+        } while (outputFileLocation.length() == 0);
         QFile f(outputFileLocation);
         f.open( QIODevice::WriteOnly );
         f.close();
@@ -125,12 +165,17 @@ void MainWindow::on_actionSave_triggered()
         eFile = outputFileLocation;
         alreadySaved = true;
         this->setWindowTitle(mainTitle + " - " + eFile);
+        ui->actionClose_file->setEnabled(true);
     }
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-    QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
+    QString outputFileLocation;
+    do
+    {
+    outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
+    } while (outputFileLocation.length() == 0);
     QFile f(outputFileLocation);
     f.open( QIODevice::WriteOnly );
     f.close();
@@ -151,4 +196,24 @@ void MainWindow::on_actionSave_as_triggered()
     }
     eFile = outputFileLocation;
     this->setWindowTitle(mainTitle + " - " + eFile);
+    ui->actionClose_file->setEnabled(true);
+}
+
+void MainWindow::on_actionClose_file_triggered()
+{
+    ui->textEdit->clear();
+    this->setWindowTitle(mainTitle);
+    eFile = ' ';
+    ui->actionClose_file->setDisabled(true);
+    alreadySaved = false;
+}
+
+void MainWindow::on_actionExir_triggered()
+{
+    QApplication::exit();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+
 }

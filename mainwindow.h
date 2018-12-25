@@ -24,6 +24,12 @@ private slots:
 
     void on_actionSave_as_triggered();
 
+    void on_actionClose_file_triggered();
+
+    void on_actionExir_triggered();
+
+    void on_actionNew_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString mainTitle = "WYDE - IDE for WYS";
