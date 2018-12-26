@@ -26,9 +26,11 @@ private slots:
 
     void on_actionClose_file_triggered();
 
-    void on_actionExir_triggered();
+    void on_actionExit_triggered();
 
     void on_actionNew_triggered();
+
+    void on_textEdit_textChanged();
 
 private:
     Ui::MainWindow *ui;
@@ -36,7 +38,10 @@ private:
     QString desktop;
     QStringList _arg;
     QString eFile;
+    QString fullTitle;
+    int action;
     bool alreadySaved = false;
+    bool textChanged = false;
 };
 
 #endif // MAINWINDOW_H

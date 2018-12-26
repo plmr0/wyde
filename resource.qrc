@@ -6,5 +6,7 @@
         <file>img/icon.ico</file>
         <file>img/open.ico</file>
         <file>img/exit.ico</file>
+        <file>img/settings.ico</file>
+        <file>img/sdk.ico</file>
     </qresource>
 </RCC>

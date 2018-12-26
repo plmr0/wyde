@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include <QAction>
 #include <QException>
 #include <QFile>
@@ -22,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if (_arg.length() > 1 && _arg.length() == 2)
     {
-
         QString _line;
         QFile _inputFile(_arg.at(1));
         eFile = _arg.at(1);
@@ -38,7 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
         }
         alreadySaved = true;
         eFile = _arg.at(1);
-        this->setWindowTitle(mainTitle + " - " + eFile);
+        fullTitle = mainTitle + " - " + eFile;
+        this->setWindowTitle(fullTitle);
+        textChanged = false;
         ui->actionClose_file->setEnabled(true);
     }
 }
@@ -50,11 +52,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionNew_triggered()
 {
-    QString outputFileLocation;
-    do
-    {
-    outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
-    } while (outputFileLocation.length() == 0);
+    QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
+    if (outputFileLocation.length() == 0)
+        return;
     QFile f(outputFileLocation);
     f.open( QIODevice::WriteOnly );
     f.close();
@@ -75,27 +75,23 @@ void MainWindow::on_actionNew_triggered()
     }
     eFile = outputFileLocation;
     alreadySaved = true;
-    this->setWindowTitle(mainTitle + " - " + eFile);
+    fullTitle = mainTitle + " - " + eFile;
+    this->setWindowTitle(fullTitle);
+    textChanged = false;
     ui->actionClose_file->setEnabled(true);
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-
+   textChanged = false;
    QString name = qgetenv("USER");
        if (name.isEmpty())
            name = qgetenv("USERNAME");
    desktop = "C:\\Users\\" + name + "\\Desktop";
 
-   QString currentFile;
-
-   try
-   {
-        currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
-   } catch (QException e)
-   {
-
-   }
+   QString currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
+   if (currentFile.length() == 0)
+       return;
 
    QString line;
    QFile inputFile(currentFile);
@@ -112,7 +108,9 @@ void MainWindow::on_actionOpen_triggered()
 
    alreadySaved = true;
    eFile = currentFile;
-   this->setWindowTitle(mainTitle + " - " + eFile);
+   fullTitle = mainTitle + " - " + eFile;
+   this->setWindowTitle(fullTitle);
+   textChanged = false;
    ui->actionClose_file->setEnabled(true);
 
 }
@@ -136,14 +134,15 @@ void MainWindow::on_actionSave_triggered()
                 if (i==strList.size()) break;
             }
         }
+        fullTitle = mainTitle + " - " + eFile;
+        textChanged = false;
+        this->setWindowTitle(fullTitle);
     }
     else
     {
-        QString outputFileLocation;
-        do
-        {
-        outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
-        } while (outputFileLocation.length() == 0);
+        QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
+        if (outputFileLocation.length() == 0)
+            return;
         QFile f(outputFileLocation);
         f.open( QIODevice::WriteOnly );
         f.close();
@@ -164,18 +163,18 @@ void MainWindow::on_actionSave_triggered()
         }
         eFile = outputFileLocation;
         alreadySaved = true;
-        this->setWindowTitle(mainTitle + " - " + eFile);
+        fullTitle = mainTitle + " - " + eFile;
+        this->setWindowTitle(fullTitle);
+        textChanged = false;
         ui->actionClose_file->setEnabled(true);
     }
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-    QString outputFileLocation;
-    do
-    {
-    outputFileLocation = QFileDialog::getSaveFileName(this, tr("Save File"), desktop, tr("WYS files (*.wys)"));
-    } while (outputFileLocation.length() == 0);
+    QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
+    if (outputFileLocation.length() == 0)
+        return;
     QFile f(outputFileLocation);
     f.open( QIODevice::WriteOnly );
     f.close();
@@ -195,25 +194,66 @@ void MainWindow::on_actionSave_as_triggered()
         }
     }
     eFile = outputFileLocation;
-    this->setWindowTitle(mainTitle + " - " + eFile);
+    alreadySaved = true;
+    fullTitle = mainTitle + " - " + eFile;
+    this->setWindowTitle(fullTitle);
+    textChanged = false;
     ui->actionClose_file->setEnabled(true);
 }
 
 void MainWindow::on_actionClose_file_triggered()
 {
+    if (textChanged)
+    {
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file, do You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        if (action == 0x00000800)
+        {
+            on_actionSave_triggered();
+        }
+        else if (action == 0x00800000)
+        {
+
+        }
+        else return;
+    }
     ui->textEdit->clear();
     this->setWindowTitle(mainTitle);
     eFile = ' ';
     ui->actionClose_file->setDisabled(true);
     alreadySaved = false;
+    textChanged = false;
+    fullTitle = mainTitle;
 }
 
-void MainWindow::on_actionExir_triggered()
+void MainWindow::on_actionExit_triggered()
 {
-    QApplication::exit();
+    if (textChanged)
+    {
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file, do You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        if (action == 0x00000800)
+        {
+            on_actionSave_triggered();
+            QApplication::exit();
+        }
+        else if (action == 0x00800000)
+        {
+            QApplication::exit();
+        }
+        else return;
+    }
+    else
+        QApplication::exit();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
 
+}
+
+void MainWindow::on_textEdit_textChanged()
+{
+    textChanged = true;
+    if (fullTitle.length() < 1)
+        fullTitle = mainTitle + " - " + "unnamed";
+    this->setWindowTitle(fullTitle + " *");
 }

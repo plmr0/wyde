@@ -183,12 +183,14 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="actionClose_file"/>
-    <addaction name="actionExir"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>Settings</string>
     </property>
+    <addaction name="actionIDE_Settings"/>
+    <addaction name="actionProject_SDK"/>
    </widget>
    <addaction name="menuOpen"/>
    <addaction name="menuSettings"/>
@@ -240,8 +242,11 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Save as</string>
    </property>
+   <property name="shortcut">
+    <string>F12</string>
+   </property>
   </action>
-  <action name="actionExir">
+  <action name="actionExit">
    <property name="icon">
     <iconset resource="resource.qrc">
      <normaloff>:/res/img/exit.ico</normaloff>:/res/img/exit.ico</iconset>
@@ -275,6 +280,24 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionProject_SDK">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/sdk.ico</normaloff>:/res/img/sdk.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Project SDK</string>
+   </property>
+  </action>
+  <action name="actionIDE_Settings">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/settings.ico</normaloff>:/res/img/settings.ico</iconset>
+   </property>
+   <property name="text">
+    <string>IDE Settings</string>
    </property>
   </action>
  </widget>
