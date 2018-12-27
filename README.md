@@ -1,3 +1,4 @@
 # wyde
-A simple IDE for [wys programming language](https://github.com/mutedSpectre/wys.git)
+## A simple IDE for [wys programming language](https://github.com/mutedSpectre/wys)
+### Written on C++ Qt 5.12.0 Framework
 ## [![Build Status](https://travis-ci.org/plmr0/wyde.svg?branch=master)](https://travis-ci.org/plmr0/wyde)
