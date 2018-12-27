@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "sdkform.h"
 
 #include <QAction>
 #include <QException>
@@ -205,7 +206,7 @@ void MainWindow::on_actionClose_file_triggered()
 {
     if (textChanged)
     {
-        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file, do You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
         if (action == 0x00000800)
         {
             on_actionSave_triggered();
@@ -229,7 +230,7 @@ void MainWindow::on_actionExit_triggered()
 {
     if (textChanged)
     {
-        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file, do You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
         if (action == 0x00000800)
         {
             on_actionSave_triggered();
@@ -247,7 +248,9 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-
+    SDKForm *w = new SDKForm();
+    w->show();
+    w->setFocus();
 }
 
 void MainWindow::on_textEdit_textChanged()

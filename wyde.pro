@@ -26,13 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        sdkform.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        sdkform.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+        sdkform.ui
 
 win32 {
     RC_FILE += icon.rc
