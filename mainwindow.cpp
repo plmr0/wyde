@@ -3,6 +3,7 @@
 #include "sdkform.h"
 
 #include <QAction>
+#include <QDesktopServices>
 #include <QException>
 #include <QFile>
 #include <QFileDialog>
@@ -248,9 +249,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    SDKForm *w = new SDKForm();
-    w->show();
-    w->setFocus();
+
 }
 
 void MainWindow::on_textEdit_textChanged()
@@ -259,4 +258,31 @@ void MainWindow::on_textEdit_textChanged()
     if (fullTitle.length() < 1)
         fullTitle = mainTitle + " - " + "unnamed";
     this->setWindowTitle(fullTitle + " *");
+}
+
+void MainWindow::on_actionProject_SDK_triggered()
+{
+    SDKForm *w = new SDKForm();
+    w->show();
+    w->setFocus();
+}
+
+void MainWindow::on_actionwyde_repository_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/plmr0/wyde"));
+}
+
+void MainWindow::on_actionWYS_GitHub_Repository_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://github.com/mutedSpectre/wys"));
+}
+
+void MainWindow::on_actionUndo_triggered()
+{
+    ui->textEdit->undo();
+}
+
+void MainWindow::on_actionRedo_triggered()
+{
+    ui->textEdit->redo();
 }

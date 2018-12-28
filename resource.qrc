@@ -10,5 +10,11 @@
         <file>img/sdk.ico</file>
         <file>img/no.ico</file>
         <file>img/yes.ico</file>
+        <file>img/redo.ico</file>
+        <file>img/undo.ico</file>
+        <file>img/find.ico</file>
+        <file>img/replace.ico</file>
+        <file>img/rep.ico</file>
+        <file>img/all.ico</file>
     </qresource>
 </RCC>

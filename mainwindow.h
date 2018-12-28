@@ -32,6 +32,16 @@ private slots:
 
     void on_textEdit_textChanged();
 
+    void on_actionwyde_repository_triggered();
+
+    void on_actionWYS_GitHub_Repository_triggered();
+
+    void on_actionUndo_triggered();
+
+    void on_actionRedo_triggered();
+
+    void on_actionProject_SDK_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString mainTitle = "WYDE - IDE for WYS";
