@@ -44,12 +44,22 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
     QString mainTitle = "WYDE - IDE for WYS";
+
     QString desktop;
+    QString sdkList;
+
     QStringList _arg;
+
     QString eFile;
     QString fullTitle;
+
+    QString PYTHON_PATH;
+    QString WYS_PATH;
+
     int action;
+
     bool alreadySaved = false;
     bool textChanged = false;
 };

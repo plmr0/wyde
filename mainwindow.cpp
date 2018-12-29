@@ -8,10 +8,13 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
 #include <QStringList>
 #include <QTextEdit>
 #include <QTextStream>
+#include <QVariant>
 #include <QWindow>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,7 +22,28 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QMainWindow::setAttribute(Qt::WA_ShowModal);
+
     eFile = ' ';
+
+    QString name = qgetenv("USER"); // Getting %username%
+        if (name.isEmpty())
+            name = qgetenv("USERNAME");
+
+    desktop = "C:\\Users\\" + name + "\\Desktop";
+    sdkList = "C:\\Users\\" + name + "\\Documents\\wyde\\wyde_sdk.ini";
+
+    /* INI-File reading */
+
+    QSettings sdk(sdkList, QSettings::IniFormat);
+    PYTHON_PATH = sdk.value("PYTHON_PATH", "").toString();
+    WYS_PATH = sdk.value("WYS_PATH", "").toString();
+
+    /* ---------------- */
+
+    /* Getting Application Arguments */
+
+    // Also setting default window title
 
     _arg = QCoreApplication::arguments();
 
@@ -45,6 +69,9 @@ MainWindow::MainWindow(QWidget *parent) :
         textChanged = false;
         ui->actionClose_file->setEnabled(true);
     }
+
+    /* ----------------------------- */
+
 }
 
 MainWindow::~MainWindow()
@@ -86,10 +113,6 @@ void MainWindow::on_actionNew_triggered()
 void MainWindow::on_actionOpen_triggered()
 {
    textChanged = false;
-   QString name = qgetenv("USER");
-       if (name.isEmpty())
-           name = qgetenv("USERNAME");
-   desktop = "C:\\Users\\" + name + "\\Desktop";
 
    QString currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
    if (currentFile.length() == 0)
@@ -262,7 +285,7 @@ void MainWindow::on_textEdit_textChanged()
 
 void MainWindow::on_actionProject_SDK_triggered()
 {
-    SDKForm *w = new SDKForm();
+    SDKForm *w = new SDKForm(nullptr, &PYTHON_PATH, &WYS_PATH);
     w->show();
     w->setFocus();
 }
