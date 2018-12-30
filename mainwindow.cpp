@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "sdkform.h"
 
-#include <QAction>
 #include <QDesktopServices>
 #include <QException>
 #include <QFile>
@@ -12,9 +11,7 @@
 #include <QStringList>
 #include <QTextEdit>
 #include <QTextStream>
-#include <QVariant>
 #include <QWindow>
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -285,7 +282,7 @@ void MainWindow::on_textEdit_textChanged()
 
 void MainWindow::on_actionProject_SDK_triggered()
 {
-    SDKForm *w = new SDKForm(nullptr, &PYTHON_PATH, &WYS_PATH);
+    SDKForm *w = new SDKForm(nullptr, &PYTHON_PATH, &WYS_PATH, sdkList);
     w->show();
     w->setFocus();
 }
