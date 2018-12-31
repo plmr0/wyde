@@ -58,6 +58,8 @@ private:
     QString PYTHON_PATH;
     QString WYS_PATH;
 
+    QString setList;
+
     int action;
 
     bool alreadySaved = false;

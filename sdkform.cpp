@@ -1,8 +1,8 @@
 #include "sdkform.h"
 #include "ui_sdkform.h"
-#include "mainwindow.h"
 
 #include <QFile>
+#include <QFileDialog>
 #include <QBitmap>
 #include <QMessageBox>
 #include <QSettings>
@@ -48,6 +48,9 @@ SDKForm::SDKForm(QWidget *parent, QString *py, QString *wys, QString sdkList) :
 
     ui->lineEdit->setText(*py);
     ui->lineEdit_2->setText(*wys);
+
+    ui->lineEdit->setText(ui->lineEdit->text().replace('/','\\'));
+    ui->lineEdit_2->setText(ui->lineEdit_2->text().replace('/','\\'));
 }
 
 SDKForm::~SDKForm()
@@ -57,6 +60,7 @@ SDKForm::~SDKForm()
 
 void SDKForm::on_pushButton_clicked()
 {
+   ui->lineEdit->setText(ui->lineEdit->text().replace('/','\\'));
    fullPyPath = ui->lineEdit->text() + pythonT;
 
     QFile pyF(fullPyPath);
@@ -81,6 +85,7 @@ void SDKForm::on_pushButton_clicked()
 
 void SDKForm::on_pushButton_2_clicked()
 {
+    ui->lineEdit_2->setText(ui->lineEdit_2->text().replace('/','\\'));
     fullWysPath = ui->lineEdit_2->text() + wysT;
 
     QFile wysF(fullWysPath);
@@ -101,4 +106,28 @@ void SDKForm::on_pushButton_2_clicked()
         wysIcon = QIcon::fromTheme(":/res/img/no.ico");
         ui->label_4->setPixmap(wysIcon.pixmap(16,16));
     }
+}
+
+void SDKForm::on_toolButton_clicked()
+{
+    QString pyDir = QFileDialog::getExistingDirectory(this, tr("Select Python Directory"), "C:\\", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (pyDir.length()==0)
+        return;
+
+    ui->lineEdit->setText(pyDir);
+    ui->lineEdit->setText(ui->lineEdit->text().replace('/','\\'));
+    on_pushButton_clicked();
+}
+
+void SDKForm::on_toolButton_2_clicked()
+{
+    QString wysDir = QFileDialog::getExistingDirectory(this, tr("Select Wys Directory"), "C:\\", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (wysDir.length()==0)
+        return;
+
+    ui->lineEdit_2->setText(wysDir);
+    ui->lineEdit_2->setText(ui->lineEdit_2->text().replace('/','\\'));
+    on_pushButton_2_clicked();
 }

@@ -21,6 +21,10 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_toolButton_clicked();
+
+    void on_toolButton_2_clicked();
+
 private:
     Ui::SDKForm *ui;
     QString pyPath;
