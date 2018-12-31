@@ -36,6 +36,22 @@ MainWindow::MainWindow(QWidget *parent) :
     PYTHON_PATH = sdk.value("PYTHON_PATH", "").toString();
     WYS_PATH = sdk.value("WYS_PATH", "").toString();
 
+    QFile pythP(PYTHON_PATH + "\\python.exe");
+    QFile wysP(WYS_PATH + "\\wys.py");
+
+    if (!pythP.exists())
+        setList = "Python";
+    if (!wysP.exists())
+    {
+        if (setList.length() > 0)
+            setList = setList + " and WYS";
+        else
+            setList = "WYS";
+    }
+
+    if (setList.length() > 0)
+        QMessageBox::warning(this, "No SDK found", setList + " directory ain\'t found.\nPlease go to \"Settings\" -> \"Project SDK\" to setup SDK directory.");
+
     /* ---------------- */
 
     /* Getting Application Arguments */
