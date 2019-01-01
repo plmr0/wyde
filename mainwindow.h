@@ -32,7 +32,7 @@ private slots:
 
     void on_textEdit_textChanged();
 
-    void on_actionwyde_repository_triggered();
+    void on_actionWYDE_repository_triggered();
 
     void on_actionWYS_GitHub_Repository_triggered();
 
@@ -41,6 +41,12 @@ private slots:
     void on_actionRedo_triggered();
 
     void on_actionProject_SDK_triggered();
+
+    void on_actionPaste_triggered();
+
+    void on_actionCopy_triggered();
+
+    void on_actionSelect_All_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     if (setList.length() > 0)
-        QMessageBox::warning(this, "No SDK found", setList + " directory ain\'t found.\nPlease go to \"Settings\" -> \"Project SDK\" to setup SDK directory.");
+        QMessageBox::warning(this, "No SDK found", setList + " directory ain\'t found.\nPlease go to \"Settings\" -> \"Project SDK\" to setup " + setList + " directory.");
 
     /* ---------------- */
 
@@ -243,7 +243,7 @@ void MainWindow::on_actionClose_file_triggered()
 {
     if (textChanged)
     {
-        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
         if (action == 0x00000800)
         {
             on_actionSave_triggered();
@@ -267,7 +267,7 @@ void MainWindow::on_actionExit_triggered()
 {
     if (textChanged)
     {
-        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
         if (action == 0x00000800)
         {
             on_actionSave_triggered();
@@ -303,7 +303,7 @@ void MainWindow::on_actionProject_SDK_triggered()
     w->setFocus();
 }
 
-void MainWindow::on_actionwyde_repository_triggered()
+void MainWindow::on_actionWYDE_repository_triggered()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/plmr0/wyde"));
 }
@@ -321,4 +321,19 @@ void MainWindow::on_actionUndo_triggered()
 void MainWindow::on_actionRedo_triggered()
 {
     ui->textEdit->redo();
+}
+
+void MainWindow::on_actionPaste_triggered()
+{
+    ui->textEdit->paste();
+}
+
+void MainWindow::on_actionCopy_triggered()
+{
+    ui->textEdit->copy();
+}
+
+void MainWindow::on_actionSelect_All_triggered()
+{
+    ui->textEdit->selectAll();
 }

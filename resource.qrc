@@ -16,5 +16,8 @@
         <file>img/replace.ico</file>
         <file>img/rep.ico</file>
         <file>img/all.ico</file>
+        <file>img/cut.ico</file>
+        <file>img/copy.ico</file>
+        <file>img/paste.ico</file>
     </qresource>
 </RCC>

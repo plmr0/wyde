@@ -182,7 +182,9 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
+    <addaction name="separator"/>
     <addaction name="actionClose_file"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
@@ -198,19 +200,45 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
-    <addaction name="actionFind"/>
-    <addaction name="actionReplace"/>
-    <addaction name="actionSelect_All"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionPaste"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
-    <addaction name="actionwyde_repository"/>
+    <addaction name="actionWYDE_repository"/>
     <addaction name="actionWYS_GitHub_Repository"/>
+   </widget>
+   <widget class="QMenu" name="menuFind">
+    <property name="title">
+     <string>Find</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionFind"/>
+    <addaction name="separator"/>
+    <addaction name="actionReplace"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionIncrease_Font"/>
+    <addaction name="actionDecrease_Font"/>
+   </widget>
+   <widget class="QMenu" name="menuSelection">
+    <property name="title">
+     <string>Selection</string>
+    </property>
+    <addaction name="actionSelect_All"/>
    </widget>
    <addaction name="menuOpen"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuSelection"/>
+   <addaction name="menuFind"/>
+   <addaction name="menuView"/>
    <addaction name="menuSettings"/>
    <addaction name="menuAbout"/>
   </widget>
@@ -311,6 +339,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionIDE_Settings">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resource.qrc">
      <normaloff>:/res/img/settings.ico</normaloff>:/res/img/settings.ico</iconset>
@@ -331,33 +362,6 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+Z</string>
    </property>
   </action>
-  <action name="actionFind">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/res/img/find.ico</normaloff>:/res/img/find.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Find</string>
-   </property>
-  </action>
-  <action name="actionReplace">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/res/img/replace.ico</normaloff>:/res/img/replace.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Replace</string>
-   </property>
-  </action>
-  <action name="actionSelect_All">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/res/img/all.ico</normaloff>:/res/img/all.ico</iconset>
-   </property>
-   <property name="text">
-    <string>Select All</string>
-   </property>
-  </action>
   <action name="actionRedo">
    <property name="icon">
     <iconset resource="resource.qrc">
@@ -370,7 +374,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+Y</string>
    </property>
   </action>
-  <action name="actionwyde_repository">
+  <action name="actionWYDE_repository">
    <property name="icon">
     <iconset resource="resource.qrc">
      <normaloff>:/res/img/rep.ico</normaloff>:/res/img/rep.ico</iconset>
@@ -386,6 +390,91 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>WYS GitHub Repository</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/paste.ico</normaloff>:/res/img/paste.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/copy.ico</normaloff>:/res/img/copy.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/cut.ico</normaloff>:/res/img/cut.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionSelect_All">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/all.ico</normaloff>:/res/img/all.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Select All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionFind">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/find.ico</normaloff>:/res/img/find.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Find</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionReplace">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/res/img/replace.ico</normaloff>:/res/img/replace.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Replace</string>
+   </property>
+  </action>
+  <action name="actionIncrease_Font">
+   <property name="text">
+    <string>Increase Font</string>
+   </property>
+  </action>
+  <action name="actionDecrease_Font">
+   <property name="text">
+    <string>Decrease Font</string>
    </property>
   </action>
  </widget>
