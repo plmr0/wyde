@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "sdkform.h"
+#include "settingsform.h"
 
 #include <QDesktopServices>
 #include <QException>
@@ -323,6 +324,13 @@ void MainWindow::on_textEdit_textChanged()
     if (fullTitle.length() < 1)
         fullTitle = mainTitle + " - " + "unnamed";
     this->setWindowTitle(fullTitle + " *");
+}
+
+void MainWindow::on_actionIDE_Settings_triggered()
+{
+    SettingsForm *w = new SettingsForm;
+    w->show();
+    w->setFocus();
 }
 
 void MainWindow::on_actionProject_SDK_triggered()

@@ -54,6 +54,8 @@ private slots:
 
     void on_actionCut_triggered();
 
+    void on_actionIDE_Settings_triggered();
+
 private:
     Ui::MainWindow *ui;
 

@@ -340,7 +340,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionIDE_Settings">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="resource.qrc">
