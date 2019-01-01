@@ -3,6 +3,7 @@
 #include "sdkform.h"
 #include "settingsform.h"
 
+#include <QCloseEvent>
 #include <QDesktopServices>
 #include <QException>
 #include <QFile>
@@ -120,6 +121,25 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (textChanged)
+    {
+        action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Close);
+        if (action == 0x00000800)
+        {
+            on_actionSave_triggered();
+            event->accept();
+        }
+        else if (action == 0x00800000)
+            event->accept();
+        else
+            event->ignore();
+    }
+    else
+        event->accept();
 }
 
 void MainWindow::on_actionNew_triggered()

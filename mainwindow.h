@@ -56,6 +56,9 @@ private slots:
 
     void on_actionIDE_Settings_triggered();
 
+protected:
+     void closeEvent(QCloseEvent *event);
+
 private:
     Ui::MainWindow *ui;
 
