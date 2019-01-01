@@ -48,6 +48,12 @@ private slots:
 
     void on_actionSelect_All_triggered();
 
+    void on_actionIncrease_Font_triggered();
+
+    void on_actionDecrease_Font_triggered();
+
+    void on_actionCut_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -56,7 +62,7 @@ private:
     QString desktop;
     QString sdkList;
 
-    QStringList _arg;
+    QStringList _args;
 
     QString eFile;
     QString fullTitle;
@@ -65,6 +71,10 @@ private:
     QString WYS_PATH;
 
     QString setList;
+    QString editorList;
+
+    QString FONT_FAMILY;
+    int FONT_SIZE = 8;
 
     int action;
 

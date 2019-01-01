@@ -29,10 +29,27 @@ MainWindow::MainWindow(QWidget *parent) :
 
     desktop = "C:\\Users\\" + name + "\\Desktop";
     sdkList = "C:\\Users\\" + name + "\\Documents\\wyde\\wyde_sdk.ini";
+    editorList = "C:\\Users\\" + name + "\\Documents\\wyde\\wyde_editor.ini";
 
     /* INI-File reading */
 
     QSettings sdk(sdkList, QSettings::IniFormat);
+    QSettings editor(editorList, QSettings::IniFormat);
+
+    QFile iniFileSDK(sdkList);
+    if (!iniFileSDK.exists())
+    {
+        sdk.setValue("PYTHON_PATH", "");
+        sdk.setValue("WYS_PATH", "");
+    }
+
+    QFile iniFileEditor(editorList);
+    if (!iniFileEditor.exists())
+    {
+        editor.setValue("FONT_SIZE", 8);
+        editor.setValue("FONT_FAMILY", "Monospace");
+    }
+
     PYTHON_PATH = sdk.value("PYTHON_PATH", "").toString();
     WYS_PATH = sdk.value("WYS_PATH", "").toString();
 
@@ -54,17 +71,29 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* ---------------- */
 
+    FONT_SIZE = editor.value("FONT_SIZE", "").toInt();
+    FONT_FAMILY = editor.value("FONT_FAMILY", "").toString();
+
+    if (FONT_SIZE == 0)
+        FONT_SIZE = 8;
+
+    ui->textEdit->setFontFamily(FONT_FAMILY);
+
+    ui->textEdit->setStyleSheet("font: " + QString::number((FONT_SIZE)) +"pt;");
+
+    /* ---------------- */
+
     /* Getting Application Arguments */
 
     // Also setting default window title
 
-    _arg = QCoreApplication::arguments();
+    _args = QCoreApplication::arguments();
 
-    if (_arg.length() > 1 && _arg.length() == 2)
+    if (_args.length() > 1 && _args.length() == 2)
     {
         QString _line;
-        QFile _inputFile(_arg.at(1));
-        eFile = _arg.at(1);
+        QFile _inputFile(_args.at(1));
+        eFile = _args.at(1);
 
         if (_inputFile.open(QIODevice::ReadOnly))
         {
@@ -76,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent) :
            _inputFile.close();
         }
         alreadySaved = true;
-        eFile = _arg.at(1);
+        eFile = _args.at(1);
         fullTitle = mainTitle + " - " + eFile;
         this->setWindowTitle(fullTitle);
         textChanged = false;
@@ -328,6 +357,11 @@ void MainWindow::on_actionPaste_triggered()
     ui->textEdit->paste();
 }
 
+void MainWindow::on_actionCut_triggered()
+{
+    ui->textEdit->cut();
+}
+
 void MainWindow::on_actionCopy_triggered()
 {
     ui->textEdit->copy();
@@ -336,4 +370,18 @@ void MainWindow::on_actionCopy_triggered()
 void MainWindow::on_actionSelect_All_triggered()
 {
     ui->textEdit->selectAll();
+}
+
+void MainWindow::on_actionIncrease_Font_triggered()
+{
+    ui->textEdit->setStyleSheet("font: " + QString::number((++FONT_SIZE)) +"pt;");
+    QSettings editor(editorList, QSettings::IniFormat);
+    editor.setValue("FONT_SIZE", FONT_SIZE);
+}
+
+void MainWindow::on_actionDecrease_Font_triggered()
+{
+    ui->textEdit->setStyleSheet("font: " + QString::number((--FONT_SIZE)) +"pt;");
+    QSettings editor(editorList, QSettings::IniFormat);
+    editor.setValue("FONT_SIZE", FONT_SIZE);
 }
