@@ -110,7 +110,7 @@ void SDKForm::on_pushButton_2_clicked()
 
 void SDKForm::on_toolButton_clicked()
 {
-    QString pyDir = QFileDialog::getExistingDirectory(this, tr("Select Python Directory"), "C:\\", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString pyDir = QFileDialog::getExistingDirectory(this, tr("Select Python Directory"), ui->lineEdit->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (pyDir.length()==0)
         return;
@@ -122,7 +122,7 @@ void SDKForm::on_toolButton_clicked()
 
 void SDKForm::on_toolButton_2_clicked()
 {
-    QString wysDir = QFileDialog::getExistingDirectory(this, tr("Select Wys Directory"), "C:\\", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString wysDir = QFileDialog::getExistingDirectory(this, tr("Select Wys Directory"), ui->lineEdit_2->text(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (wysDir.length()==0)
         return;

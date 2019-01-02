@@ -40,6 +40,8 @@ private slots:
 
     void on_actionRedo_triggered();
 
+    void on_actionIDE_Settings_triggered();
+
     void on_actionProject_SDK_triggered();
 
     void on_actionPaste_triggered();
@@ -48,13 +50,11 @@ private slots:
 
     void on_actionSelect_All_triggered();
 
-    void on_actionIncrease_Font_triggered();
-
-    void on_actionDecrease_Font_triggered();
-
     void on_actionCut_triggered();
 
-    void on_actionIDE_Settings_triggered();
+    void on_actionLarger_triggered();
+
+    void on_actionSmaller_triggered();
 
 protected:
      void closeEvent(QCloseEvent *event);

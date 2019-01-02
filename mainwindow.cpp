@@ -204,13 +204,14 @@ void MainWindow::on_actionOpen_triggered()
             return;
     }
 
-    ui->textEdit->clear();
-
     textChanged = false;
 
     QString currentFile = QFileDialog::getOpenFileName(this, tr("Open File"), desktop, tr("WYS files (*.wys)"));
     if (currentFile.length() == 0)
         return;
+
+    if ((ui->textEdit->toPlainText()).length() > 0)
+        ui->textEdit->clear();
 
     QString line;
     QFile inputFile(currentFile);
@@ -404,14 +405,14 @@ void MainWindow::on_actionSelect_All_triggered()
     ui->textEdit->selectAll();
 }
 
-void MainWindow::on_actionIncrease_Font_triggered()
+void MainWindow::on_actionLarger_triggered()
 {
     ui->textEdit->setStyleSheet("font: " + QString::number(++FONT_SIZE) +"pt;");
     QSettings editor(editorList, QSettings::IniFormat);
     editor.setValue("FONT_SIZE", FONT_SIZE);
 }
 
-void MainWindow::on_actionDecrease_Font_triggered()
+void MainWindow::on_actionSmaller_triggered()
 {
     ui->textEdit->setStyleSheet("font: " + QString::number(--FONT_SIZE) +"pt;");
     QSettings editor(editorList, QSettings::IniFormat);
