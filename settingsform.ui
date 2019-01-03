@@ -113,27 +113,27 @@
           <widget class="QPushButton" name="pushButton">
            <property name="geometry">
             <rect>
-             <x>110</x>
-             <y>30</y>
-             <width>75</width>
-             <height>22</height>
+             <x>279</x>
+             <y>199</y>
+             <width>76</width>
+             <height>25</height>
             </rect>
            </property>
            <property name="text">
-            <string>Apply</string>
+            <string>OK</string>
            </property>
           </widget>
           <widget class="QPushButton" name="pushButton_2">
            <property name="geometry">
             <rect>
-             <x>272</x>
-             <y>67</y>
-             <width>75</width>
-             <height>24</height>
+             <x>369</x>
+             <y>199</y>
+             <width>76</width>
+             <height>25</height>
             </rect>
            </property>
            <property name="text">
-            <string>Apply</string>
+            <string>Close</string>
            </property>
           </widget>
           <widget class="QCheckBox" name="checkBox">
@@ -159,7 +159,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>Cursive</string>
+            <string>Italic</string>
            </property>
           </widget>
           <widget class="QCheckBox" name="checkBox_3">
@@ -167,12 +167,12 @@
             <rect>
              <x>140</x>
              <y>148</y>
-             <width>70</width>
+             <width>81</width>
              <height>17</height>
             </rect>
            </property>
            <property name="text">
-            <string>Underline</string>
+            <string>Underlined</string>
            </property>
           </widget>
           <widget class="QLabel" name="label_3">
@@ -204,6 +204,11 @@
            </item>
            <item>
             <property name="text">
+             <string>Red</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
              <string>Green</string>
             </property>
            </item>
@@ -214,44 +219,26 @@
            </item>
            <item>
             <property name="text">
-             <string>Red</string>
+             <string>Yellow</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Orange</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Purple</string>
+             <string>Magenta</string>
             </property>
            </item>
           </widget>
           <widget class="QPushButton" name="pushButton_3">
            <property name="geometry">
             <rect>
-             <x>140</x>
-             <y>108</y>
-             <width>75</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Apply</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="pushButton_4">
-           <property name="geometry">
-            <rect>
              <x>9</x>
              <y>199</y>
-             <width>75</width>
-             <height>23</height>
+             <width>85</width>
+             <height>25</height>
             </rect>
            </property>
            <property name="text">
-            <string>Set Default</string>
+            <string>Set to Default</string>
            </property>
           </widget>
          </widget>

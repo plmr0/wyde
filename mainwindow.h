@@ -56,6 +56,8 @@ private slots:
 
     void on_actionSmaller_triggered();
 
+    void on_actionReset_triggered();
+
 protected:
      void closeEvent(QCloseEvent *event);
 
@@ -78,8 +80,28 @@ private:
     QString setList;
     QString editorList;
 
+    /* Editor variables */
+
+    const QString _COLORS [6] = {"black", "red", "green", "blue", "yellow", "magenta"};
+    int FONT_COLOR = 0;
+
+    /*
+     * 0 - Black [Default]
+     * 1 - Red
+     * 2 - Green
+     * 3 - Blue
+     * 4 - Yellow
+     * 5 - Magenta/(Purple)
+    */
+
     QString FONT_FAMILY;
     int FONT_SIZE = 8;
+
+    bool isBold = false;
+    bool isItalic = false;
+    bool isUnderlined = false;
+
+    /* ---------------- */
 
     int action;
 

@@ -232,6 +232,8 @@ p, li { white-space: pre-wrap; }
      </property>
      <addaction name="actionLarger"/>
      <addaction name="actionSmaller"/>
+     <addaction name="separator"/>
+     <addaction name="actionReset"/>
     </widget>
     <addaction name="menuFont"/>
    </widget>
@@ -478,10 +480,21 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Larger</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
   </action>
   <action name="actionSmaller">
    <property name="text">
     <string>Smaller</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="text">
+    <string>Reset</string>
    </property>
   </action>
  </widget>

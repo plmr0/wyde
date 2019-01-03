@@ -12,7 +12,8 @@ class SettingsForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit SettingsForm(QWidget *parent = nullptr);
+    explicit SettingsForm(QWidget *parent = nullptr, QString fontFamily = "Monospace", int fontSize = 8, int fontColor = 0,
+                                                    bool isBold = false, bool isItalic = false, bool isUnderlined = false);
     ~SettingsForm();
 
 private:

@@ -50,6 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         editor.setValue("FONT_SIZE", 8);
         editor.setValue("FONT_FAMILY", "Monospace");
+        editor.setValue("FONT_COLOR", 0);
+        editor.setValue("BOLD", "FALSE");
+        editor.setValue("ITALIC", "FALSE");
+        editor.setValue("UNDERLINED", "FALSE");
+
     }
 
     PYTHON_PATH = sdk.value("PYTHON_PATH", "").toString();
@@ -75,13 +80,33 @@ MainWindow::MainWindow(QWidget *parent) :
 
     FONT_SIZE = editor.value("FONT_SIZE", "").toInt();
     FONT_FAMILY = editor.value("FONT_FAMILY", "").toString();
+    FONT_COLOR = editor.value("FONT_COLOR", "").toInt();
+    isBold = editor.value("BOLD", "").toBool();
+    isItalic = editor.value("ITALIC", "").toBool();
+    isUnderlined = editor.value("UNDERLINED", "").toBool();
 
     if (FONT_SIZE == 0)
+    {
         FONT_SIZE = 8;
+        editor.setValue("FONT_SIZE", FONT_SIZE);
+    }
+
+    if (!(FONT_COLOR >= 0 && FONT_COLOR < 6))
+    {
+        FONT_COLOR = 0;
+        editor.setValue("FONT_COLOR", FONT_COLOR);
+    }
 
     ui->textEdit->setFontFamily(FONT_FAMILY);
+    ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
 
-    ui->textEdit->setStyleSheet("font: " + QString::number((FONT_SIZE)) +"pt;");
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderlined)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
 
     /* ---------------- */
 
@@ -108,10 +133,13 @@ MainWindow::MainWindow(QWidget *parent) :
         }
         alreadySaved = true;
         eFile = _args.at(1);
+        eFile = eFile.replace('/','\\');
         fullTitle = mainTitle + " - " + eFile;
         this->setWindowTitle(fullTitle);
         textChanged = false;
         ui->actionClose_file->setEnabled(true);
+
+        ui->textEdit->moveCursor(QTextCursor::Start);
     }
 
     /* ----------------------------- */
@@ -151,16 +179,17 @@ void MainWindow::on_actionNew_triggered()
         {
             on_actionSave_triggered();
         }
-        else if (action == 0x00800000)
-        {
-
-        }
+        else if (action == 0x00800000) {}
         else return;
     }
 
     QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
     if (outputFileLocation.length() == 0)
         return;
+
+    if ((ui->textEdit->toPlainText()).length() > 0)
+        ui->textEdit->clear();
+
     QFile f(outputFileLocation);
     f.open( QIODevice::WriteOnly );
     f.close();
@@ -180,11 +209,14 @@ void MainWindow::on_actionNew_triggered()
         }
     }
     eFile = outputFileLocation;
+    eFile = eFile.replace('/','\\');
     alreadySaved = true;
     fullTitle = mainTitle + " - " + eFile;
     this->setWindowTitle(fullTitle);
     textChanged = false;
     ui->actionClose_file->setEnabled(true);
+
+    ui->textEdit->moveCursor(QTextCursor::Start);
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -196,12 +228,8 @@ void MainWindow::on_actionOpen_triggered()
         {
             on_actionSave_triggered();
         }
-        else if (action == 0x00800000)
-        {
-
-        }
-        else
-            return;
+        else if (action == 0x00800000) {}
+        else return;
     }
 
     textChanged = false;
@@ -228,10 +256,13 @@ void MainWindow::on_actionOpen_triggered()
 
      alreadySaved = true;
      eFile = currentFile;
+     eFile = eFile.replace('/','\\');
      fullTitle = mainTitle + " - " + eFile;
      this->setWindowTitle(fullTitle);
      textChanged = false;
      ui->actionClose_file->setEnabled(true);
+
+     ui->textEdit->moveCursor(QTextCursor::Start);
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -287,6 +318,7 @@ void MainWindow::on_actionSave_as_triggered()
         }
     }
     eFile = outputFileLocation;
+    eFile = eFile.replace('/','\\');
     alreadySaved = true;
     fullTitle = mainTitle + " - " + eFile;
     this->setWindowTitle(fullTitle);
@@ -303,10 +335,7 @@ void MainWindow::on_actionClose_file_triggered()
         {
             on_actionSave_triggered();
         }
-        else if (action == 0x00800000)
-        {
-
-        }
+        else if (action == 0x00800000){}
         else return;
     }
     ui->textEdit->clear();
@@ -316,6 +345,8 @@ void MainWindow::on_actionClose_file_triggered()
     alreadySaved = false;
     textChanged = false;
     fullTitle = mainTitle;
+
+    ui->textEdit->moveCursor(QTextCursor::Start);
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -408,6 +439,16 @@ void MainWindow::on_actionSelect_All_triggered()
 void MainWindow::on_actionLarger_triggered()
 {
     ui->textEdit->setStyleSheet("font: " + QString::number(++FONT_SIZE) +"pt;");
+
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("color: " + _COLORS[FONT_COLOR] + ";"));
+
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderlined)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
+
     QSettings editor(editorList, QSettings::IniFormat);
     editor.setValue("FONT_SIZE", FONT_SIZE);
 }
@@ -415,6 +456,33 @@ void MainWindow::on_actionLarger_triggered()
 void MainWindow::on_actionSmaller_triggered()
 {
     ui->textEdit->setStyleSheet("font: " + QString::number(--FONT_SIZE) +"pt;");
+
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("color: " + _COLORS[FONT_COLOR] + ";"));
+
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderlined)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
+
     QSettings editor(editorList, QSettings::IniFormat);
     editor.setValue("FONT_SIZE", FONT_SIZE);
+}
+
+void MainWindow::on_actionReset_triggered()
+{
+    ui->textEdit->setStyleSheet("font: 8pt;");
+
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("color: " + _COLORS[FONT_COLOR] + ";"));
+
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderlined)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
+
+    QSettings editor(editorList, QSettings::IniFormat);
+    editor.setValue("FONT_SIZE", 8);
 }
