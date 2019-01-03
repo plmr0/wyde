@@ -13,6 +13,10 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
+    QString setList;
+    QString editorList;
+
     ~MainWindow();
 
 private slots:
@@ -77,12 +81,9 @@ private:
     QString PYTHON_PATH;
     QString WYS_PATH;
 
-    QString setList;
-    QString editorList;
-
     /* Editor variables */
 
-    const QString _COLORS [6] = {"black", "red", "green", "blue", "yellow", "magenta"};
+    const QString _COLORS [6] = {"Black", "Red", "Green", "Blue", "Yellow", "Magenta"};
     int FONT_COLOR = 0;
 
     /*
@@ -99,7 +100,7 @@ private:
 
     bool isBold = false;
     bool isItalic = false;
-    bool isUnderlined = false;
+    bool isUnderline = false;
 
     /* ---------------- */
 

@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     FONT_COLOR = editor.value("FONT_COLOR", "").toInt();
     isBold = editor.value("BOLD", "").toBool();
     isItalic = editor.value("ITALIC", "").toBool();
-    isUnderlined = editor.value("UNDERLINED", "").toBool();
+    isUnderline = editor.value("UNDERLINED", "").toBool();
 
     if (FONT_SIZE == 0)
     {
@@ -105,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
     if (isItalic)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
-    if (isUnderlined)
+    if (isUnderline)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
 
     /* ---------------- */
@@ -221,6 +221,17 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
+    ui->textEdit->setFontFamily(FONT_FAMILY);
+    ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderline)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
+
     if (textChanged)
     {
         action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the current file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Cancel);
@@ -328,6 +339,17 @@ void MainWindow::on_actionSave_as_triggered()
 
 void MainWindow::on_actionClose_file_triggered()
 {
+    ui->textEdit->setFontFamily(FONT_FAMILY);
+    ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderline)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
+
     if (textChanged)
     {
         action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Cancel);
@@ -371,7 +393,9 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-
+    QMessageBox::warning(this,"kek", "current FS is " + QString::number(FONT_SIZE) + "\ncurrent FF is " + FONT_FAMILY + "\ncurrent FC is " + _COLORS[FONT_COLOR]);
+    QMessageBox::warning(this,"kek", ui->textEdit->styleSheet());
+    QMessageBox::warning(this, "lel", ui->textEdit->fontFamily());
 }
 
 void MainWindow::on_textEdit_textChanged()
@@ -384,9 +408,45 @@ void MainWindow::on_textEdit_textChanged()
 
 void MainWindow::on_actionIDE_Settings_triggered()
 {
-    SettingsForm *w = new SettingsForm;
+    bool beforeChanged = (textChanged) ? true : false;
+
+    QString fullText = ui->textEdit->toPlainText();
+
+    SettingsForm *w = new SettingsForm(nullptr, &FONT_FAMILY, &FONT_SIZE, &FONT_COLOR, &isBold, &isItalic, &isUnderline);
     w->show();
     w->setFocus();
+    w->setAttribute(Qt::WA_DeleteOnClose);
+
+    // This loop will wait for the window is destroyed
+    QEventLoop loop;
+    connect(w, SIGNAL(destroyed()), & loop, SLOT(quit()));
+    loop.exec();
+
+    ui->textEdit->clear();
+
+    ui->textEdit->setFontFamily(FONT_FAMILY);
+
+    ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+
+    if (isBold)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
+    if (isItalic)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
+    if (isUnderline)
+        ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
+
+    ui->textEdit->insertPlainText(fullText);
+    ui->textEdit->moveCursor(QTextCursor::Start);
+    if ((fullText == ui->textEdit->toPlainText()) && (textChanged == true) && (beforeChanged == false))
+    {
+        if (fullTitle == (mainTitle + " - unnamed"))
+            fullTitle = mainTitle;
+        else
+            fullTitle = mainTitle + " - " + eFile;
+        textChanged = false;
+        this->setWindowTitle(fullTitle);
+    }
 }
 
 void MainWindow::on_actionProject_SDK_triggered()
@@ -446,7 +506,7 @@ void MainWindow::on_actionLarger_triggered()
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
     if (isItalic)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
-    if (isUnderlined)
+    if (isUnderline)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
 
     QSettings editor(editorList, QSettings::IniFormat);
@@ -463,7 +523,7 @@ void MainWindow::on_actionSmaller_triggered()
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
     if (isItalic)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
-    if (isUnderlined)
+    if (isUnderline)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
 
     QSettings editor(editorList, QSettings::IniFormat);
@@ -480,7 +540,7 @@ void MainWindow::on_actionReset_triggered()
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
     if (isItalic)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-style: italic;"));
-    if (isUnderlined)
+    if (isUnderline)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("text-decoration: underline;"));
 
     QSettings editor(editorList, QSettings::IniFormat);

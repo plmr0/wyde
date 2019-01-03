@@ -86,6 +86,12 @@
              <height>20</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>2</number>
+           </property>
+           <property name="maximum">
+            <number>72</number>
+           </property>
           </widget>
           <widget class="QLabel" name="label_2">
            <property name="geometry">
