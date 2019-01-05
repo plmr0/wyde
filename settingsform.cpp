@@ -11,6 +11,8 @@ SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, 
 {
     ui->setupUi(this);
 
+    setWindowFlags(windowFlags() & (~Qt::WindowCloseButtonHint));
+
     currentFontFamily = fontFamily;
     currentFontSize = fontSize;
     currentFontColor = fontColor;
