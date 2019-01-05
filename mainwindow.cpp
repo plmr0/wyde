@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
         editor.setValue("FONT_SIZE", 8);
         editor.setValue("FONT_FAMILY", "Monospace");
         editor.setValue("FONT_COLOR", 0);
+        editor.setValue("BACKGROUND_COLOR", 1);
         editor.setValue("BOLD", "FALSE");
         editor.setValue("ITALIC", "FALSE");
         editor.setValue("UNDERLINED", "FALSE");
@@ -81,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     FONT_SIZE = editor.value("FONT_SIZE", "").toInt();
     FONT_FAMILY = editor.value("FONT_FAMILY", "").toString();
     FONT_COLOR = editor.value("FONT_COLOR", "").toInt();
+    BACKGROUND_COLOR = editor.value("BACKGROUND_COLOR", "").toInt();
     isBold = editor.value("BOLD", "").toBool();
     isItalic = editor.value("ITALIC", "").toBool();
     isUnderline = editor.value("UNDERLINED", "").toBool();
@@ -91,15 +93,22 @@ MainWindow::MainWindow(QWidget *parent) :
         editor.setValue("FONT_SIZE", FONT_SIZE);
     }
 
-    if (!(FONT_COLOR >= 0 && FONT_COLOR < 6))
+    if (!(FONT_COLOR >= 0 && FONT_COLOR < _COLORS->length()))
     {
         FONT_COLOR = 0;
         editor.setValue("FONT_COLOR", FONT_COLOR);
     }
 
+    if (!(BACKGROUND_COLOR >= 0 && BACKGROUND_COLOR < _COLORS->length()))
+    {
+        BACKGROUND_COLOR = 1;
+        editor.setValue("BACKGROUND_COLOR", BACKGROUND_COLOR);
+    }
+
     ui->textEdit->setFontFamily(FONT_FAMILY);
     ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
@@ -224,6 +233,7 @@ void MainWindow::on_actionOpen_triggered()
     ui->textEdit->setFontFamily(FONT_FAMILY);
     ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
@@ -342,6 +352,7 @@ void MainWindow::on_actionClose_file_triggered()
     ui->textEdit->setFontFamily(FONT_FAMILY);
     ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
@@ -393,9 +404,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QMessageBox::warning(this,"kek", "current FS is " + QString::number(FONT_SIZE) + "\ncurrent FF is " + FONT_FAMILY + "\ncurrent FC is " + _COLORS[FONT_COLOR]);
-    QMessageBox::warning(this,"kek", ui->textEdit->styleSheet());
-    QMessageBox::warning(this, "lel", ui->textEdit->fontFamily());
+
 }
 
 void MainWindow::on_textEdit_textChanged()
@@ -412,7 +421,7 @@ void MainWindow::on_actionIDE_Settings_triggered()
 
     QString fullText = ui->textEdit->toPlainText();
 
-    SettingsForm *w = new SettingsForm(nullptr, &FONT_FAMILY, &FONT_SIZE, &FONT_COLOR, &isBold, &isItalic, &isUnderline);
+    SettingsForm *w = new SettingsForm(nullptr, &FONT_FAMILY, &FONT_SIZE, &FONT_COLOR, &BACKGROUND_COLOR, &isBold, &isItalic, &isUnderline);
     w->show();
     w->setFocus();
     w->setAttribute(Qt::WA_DeleteOnClose);
@@ -428,6 +437,7 @@ void MainWindow::on_actionIDE_Settings_triggered()
 
     ui->textEdit->setStyleSheet("color: " + _COLORS[FONT_COLOR] + ";");
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font: " + QString::number(FONT_SIZE) +"pt;"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
@@ -501,6 +511,7 @@ void MainWindow::on_actionLarger_triggered()
     ui->textEdit->setStyleSheet("font: " + QString::number(++FONT_SIZE) +"pt;");
 
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("color: " + _COLORS[FONT_COLOR] + ";"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
@@ -518,6 +529,7 @@ void MainWindow::on_actionSmaller_triggered()
     ui->textEdit->setStyleSheet("font: " + QString::number(--FONT_SIZE) +"pt;");
 
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("color: " + _COLORS[FONT_COLOR] + ";"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));
@@ -535,6 +547,7 @@ void MainWindow::on_actionReset_triggered()
     ui->textEdit->setStyleSheet("font: 8pt;");
 
     ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("color: " + _COLORS[FONT_COLOR] + ";"));
+    ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("background-color: " + _COLORS[BACKGROUND_COLOR] + ";"));
 
     if (isBold)
         ui->textEdit->setStyleSheet(ui->textEdit->styleSheet().append("font-weight: bold;"));

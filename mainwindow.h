@@ -83,17 +83,9 @@ private:
 
     /* Editor variables */
 
-    const QString _COLORS [6] = {"Black", "Red", "Green", "Blue", "Yellow", "Magenta"};
+    const QString _COLORS [8] = {"Black", "White", "Gray", "Red", "Green", "Blue", "Yellow", "Magenta"};
     int FONT_COLOR = 0;
-
-    /*
-     * 0 - Black [Default]
-     * 1 - Red
-     * 2 - Green
-     * 3 - Blue
-     * 4 - Yellow
-     * 5 - Magenta/(Purple)
-    */
+    int BACKGROUND_COLOR = 1;
 
     QString FONT_FAMILY;
     int FONT_SIZE = 8;

@@ -14,7 +14,7 @@ class SettingsForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit SettingsForm(QWidget *parent = nullptr, QString *fontFamily = nullptr, int *fontSize = nullptr, int *fontColor = nullptr,
+    explicit SettingsForm(QWidget *parent = nullptr, QString *fontFamily = nullptr, int *fontSize = nullptr, int *fontColor = nullptr, int *backgroundColor = nullptr,
                                                     bool *isBold = nullptr, bool *isItalic = nullptr, bool *isUnderline = nullptr);
     ~SettingsForm();
 
@@ -32,15 +32,17 @@ private:
 
     int a;
 
-    const QString COLORS_LIST [6] = {"Black", "Red", "Green", "Blue", "Yellow", "Magenta"};
+    const QString COLORS_LIST [8] = {"Black", "White", "Gray", "Red", "Green", "Blue", "Yellow", "Magenta"};
 
     const QString defaultFontFamily = "Monospace";
     const int defaultFontSize = 8;
     const int defaultFontColor = 0;
+    const int defaulBackgroundColor = 1;
 
     QString *currentFontFamily;
     int *currentFontSize;
     int *currentFontColor;
+    int *currentBackgroundColor;
     bool *currentIsBold;
     bool *currentIsItalic;
     bool *currentIsUnderline;
@@ -48,6 +50,7 @@ private:
     bool fontFamilyChanged = false;
     bool fontSizeChanged = false;
     bool fontColorChanged = false;
+    bool backgroundColorChanged = false;
     bool isBoldChanged = false;
     bool isItalicChanged = false;
     bool isUnderlineChanged = false;

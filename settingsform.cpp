@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <QSettings>
 
-SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, int *fontColor,
+SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, int *fontColor, int *backgroundColor,
                                                 bool *isBold, bool *isItalic, bool *isUnderline) :
     QWidget(parent),
     ui(new Ui::SettingsForm)
@@ -16,6 +16,7 @@ SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, 
     currentFontFamily = fontFamily;
     currentFontSize = fontSize;
     currentFontColor = fontColor;
+    currentBackgroundColor = backgroundColor;
     currentIsBold = isBold;
     currentIsItalic = isItalic;
     currentIsUnderline = isUnderline;
@@ -26,6 +27,9 @@ SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, 
 
     if (ui->comboBox->findText(COLORS_LIST[*fontColor]))
         ui->comboBox->setCurrentIndex(*fontColor);
+
+    if (ui->comboBox_2->findText(COLORS_LIST[*backgroundColor]))
+        ui->comboBox_2->setCurrentIndex(*backgroundColor);
 
     if (*isBold)
         ui->checkBox->setCheckState(Qt::Checked);
@@ -54,6 +58,7 @@ void SettingsForm::on_pushButton_clicked()
     *currentFontFamily = ui->fontComboBox->currentText();
     *currentFontSize = ui->spinBox->value();
     *currentFontColor = ui->comboBox->currentIndex();
+    *currentBackgroundColor = ui->comboBox_2->currentIndex();
     *currentIsBold = ui->checkBox->isChecked();
     *currentIsItalic = ui->checkBox_2->isChecked();
     *currentIsUnderline = ui->checkBox_3->isChecked();
@@ -62,6 +67,7 @@ void SettingsForm::on_pushButton_clicked()
     editor.setValue("FONT_SIZE", *currentFontSize);
     editor.setValue("FONT_FAMILY", *currentFontFamily);
     editor.setValue("FONT_COLOR", *currentFontColor);
+    editor.setValue("BACKGROUND_COLOR", *currentBackgroundColor);
     editor.setValue("BOLD", *currentIsBold);
     editor.setValue("ITALIC", *currentIsItalic);
     editor.setValue("UNDERLINED", *currentIsUnderline);
@@ -79,6 +85,7 @@ void SettingsForm::on_pushButton_3_clicked()
         ui->spinBox->setValue(defaultFontSize);
         ui->fontComboBox->setCurrentText(defaultFontFamily);
         ui->comboBox->setCurrentIndex(defaultFontColor);
+        ui->comboBox_2->setCurrentIndex(defaulBackgroundColor);
         ui->checkBox->setCheckState(Qt::Unchecked);
         ui->checkBox_2->setCheckState(Qt::Unchecked);
         ui->checkBox_3->setCheckState(Qt::Unchecked);
@@ -93,6 +100,7 @@ void SettingsForm::on_pushButton_2_clicked()
             (*currentFontSize != ui->spinBox->value())
          || (*currentFontFamily != ui->fontComboBox->currentText())
          || (*currentFontColor != ui->comboBox->currentIndex())
+         || (*currentBackgroundColor != ui->comboBox_2->currentIndex())
          || (*currentIsBold != ui->checkBox->isChecked())
          || (*currentIsItalic != ui->checkBox_2->isChecked())
          || (*currentIsUnderline != ui->checkBox_3->isChecked())
@@ -105,6 +113,7 @@ void SettingsForm::on_pushButton_2_clicked()
             *currentFontFamily = ui->fontComboBox->currentText();
             *currentFontSize = ui->spinBox->value();
             *currentFontColor = ui->comboBox->currentIndex();
+            *currentBackgroundColor = ui->comboBox_2->currentIndex();
             *currentIsBold = ui->checkBox->isChecked();
             *currentIsItalic = ui->checkBox_2->isChecked();
             *currentIsUnderline = ui->checkBox_3->isChecked();
@@ -113,6 +122,7 @@ void SettingsForm::on_pushButton_2_clicked()
             editor.setValue("FONT_SIZE", *currentFontSize);
             editor.setValue("FONT_FAMILY", *currentFontFamily);
             editor.setValue("FONT_COLOR", *currentFontColor);
+            editor.setValue("BACKGROUND_COLOR", *currentBackgroundColor);
             editor.setValue("BOLD", *currentIsBold);
             editor.setValue("ITALIC", *currentIsItalic);
             editor.setValue("UNDERLINED", *currentIsUnderline);
