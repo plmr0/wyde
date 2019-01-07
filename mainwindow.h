@@ -63,7 +63,7 @@ private slots:
     void on_actionReset_triggered();
 
 protected:
-     void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;

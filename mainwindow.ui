@@ -159,6 +159,12 @@ p, li { white-space: pre-wrap; }
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="placeholderText">
+        <string>Entrer your code here...</string>
+       </property>
       </widget>
      </item>
     </layout>

@@ -270,7 +270,7 @@ void MainWindow::on_actionOpen_triggered()
          while (!inputFile.atEnd())
          {
             line = inputFile.readLine();
-             ui->textEdit->insertPlainText(line);
+            ui->textEdit->insertPlainText(line);
          }
          inputFile.close();
     }
