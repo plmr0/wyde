@@ -21,6 +21,8 @@ SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, 
     currentIsItalic = isItalic;
     currentIsUnderline = isUnderline;
 
+    // Settings values
+
     ui->spinBox->setValue(*fontSize);
 
     ui->fontComboBox->setCurrentFont(QFont(*fontFamily));
@@ -46,6 +48,23 @@ SettingsForm::SettingsForm(QWidget *parent, QString *fontFamily, int *fontSize, 
     else
         ui->checkBox_3->setCheckState(Qt::Unchecked);
 
+    // QLineEdit style
+
+    ui->lineEdit->setStyleSheet("");
+
+    ui->lineEdit->setFont(QFont(*fontFamily));
+    ui->lineEdit->setStyleSheet("color: " + COLORS_LIST[*fontColor] + ";");
+    ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font: " + QString::number(*fontSize) +"pt;"));
+    ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("background-color: " + COLORS_LIST[*backgroundColor] + ";"));
+
+    if (*isBold)
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font-weight: bold;"));
+    if (*isItalic)
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font-style: italic;"));
+    if (*isUnderline)
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("text-decoration: underline;"));
+
+    ui->lineEdit->setCursorPosition(QTextCursor::Start);
 }
 
 SettingsForm::~SettingsForm()
@@ -138,4 +157,70 @@ void SettingsForm::on_pushButton_2_clicked()
     }
     else
         QWidget::close();
+}
+
+void SettingsForm::on_pushButton_4_clicked()
+{
+    *currentFontFamily = ui->fontComboBox->currentText();
+    *currentFontSize = ui->spinBox->value();
+    *currentFontColor = ui->comboBox->currentIndex();
+    *currentBackgroundColor = ui->comboBox_2->currentIndex();
+    *currentIsBold = ui->checkBox->isChecked();
+    *currentIsItalic = ui->checkBox_2->isChecked();
+    *currentIsUnderline = ui->checkBox_3->isChecked();
+
+    QSettings editor(mw.editorList, QSettings::IniFormat);
+    editor.setValue("FONT_SIZE", *currentFontSize);
+    editor.setValue("FONT_FAMILY", *currentFontFamily);
+    editor.setValue("FONT_COLOR", *currentFontColor);
+    editor.setValue("BACKGROUND_COLOR", *currentBackgroundColor);
+    editor.setValue("BOLD", *currentIsBold);
+    editor.setValue("ITALIC", *currentIsItalic);
+    editor.setValue("UNDERLINED", *currentIsUnderline);
+}
+
+void SettingsForm::on_spinBox_valueChanged(int arg1)
+{
+    ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font: " + QString::number(arg1) +"pt;"));
+}
+
+void SettingsForm::on_fontComboBox_currentTextChanged(const QString &arg1)
+{
+    ui->lineEdit->setFont(QFont(arg1, ui->spinBox->value()));
+}
+
+void SettingsForm::on_comboBox_currentIndexChanged(int index)
+{
+    ui->lineEdit->setStyleSheet("color: " + COLORS_LIST[index] + ";");
+    ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("background-color: " + COLORS_LIST[ui->comboBox_2->currentIndex()] + ";"));
+}
+
+void SettingsForm::on_comboBox_2_currentIndexChanged(int index)
+{
+    ui->lineEdit->setStyleSheet("color: " + COLORS_LIST[ui->comboBox->currentIndex()] + ";");
+    ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("background-color: " + COLORS_LIST[index] + ";"));
+}
+
+void SettingsForm::on_checkBox_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked)
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font-weight: bold;"));
+    else
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font-weight: normal;"));
+}
+
+void SettingsForm::on_checkBox_2_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked)
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font-style: italic;"));
+    else
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("font-style: normal;"));
+}
+
+void SettingsForm::on_checkBox_3_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked)
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("text-decoration: underline;"));
+    else
+        ui->lineEdit->setStyleSheet(ui->lineEdit->styleSheet().append("text-decoration: none;"));
 }

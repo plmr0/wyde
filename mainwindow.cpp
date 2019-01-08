@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if (!iniFileEditor.exists())
     {
         editor.setValue("FONT_SIZE", 8);
-        editor.setValue("FONT_FAMILY", "Monospace");
+        editor.setValue("FONT_FAMILY", "MS Shell Dlg 2");
         editor.setValue("FONT_COLOR", 0);
         editor.setValue("BACKGROUND_COLOR", 1);
         editor.setValue("BOLD", "FALSE");
@@ -87,19 +87,19 @@ MainWindow::MainWindow(QWidget *parent) :
     isItalic = editor.value("ITALIC", "").toBool();
     isUnderline = editor.value("UNDERLINED", "").toBool();
 
-    if (FONT_SIZE == 0)
+    if (!(FONT_SIZE >1 && FONT_SIZE < 73))
     {
         FONT_SIZE = 8;
         editor.setValue("FONT_SIZE", FONT_SIZE);
     }
 
-    if (!(FONT_COLOR >= 0 && FONT_COLOR < _COLORS->length()))
+    if (!(FONT_COLOR >= 0 && FONT_COLOR < 8))
     {
         FONT_COLOR = 0;
         editor.setValue("FONT_COLOR", FONT_COLOR);
     }
 
-    if (!(BACKGROUND_COLOR >= 0 && BACKGROUND_COLOR < _COLORS->length()))
+    if (!(BACKGROUND_COLOR >= 0 && BACKGROUND_COLOR < 8))
     {
         BACKGROUND_COLOR = 1;
         editor.setValue("BACKGROUND_COLOR", BACKGROUND_COLOR);
@@ -413,6 +413,9 @@ void MainWindow::on_textEdit_textChanged()
     if (fullTitle.length() < 1 || fullTitle == "WYDE - IDE for WYS")
         fullTitle = mainTitle + " - " + "unnamed";
     this->setWindowTitle(fullTitle + " *");
+
+    if (ui->textEdit->toPlainText().length() == 0)
+        ui->textEdit->setFontFamily(FONT_FAMILY);
 }
 
 void MainWindow::on_actionIDE_Settings_triggered()

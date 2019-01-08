@@ -25,6 +25,22 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_4_clicked();
+
+    void on_spinBox_valueChanged(int arg1);
+
+    void on_fontComboBox_currentTextChanged(const QString &arg1);
+
+    void on_comboBox_currentIndexChanged(int index);
+
+    void on_checkBox_stateChanged(int arg1);
+
+    void on_checkBox_2_stateChanged(int arg1);
+
+    void on_checkBox_3_stateChanged(int arg1);
+
+    void on_comboBox_2_currentIndexChanged(int index);
+
 private:
     Ui::SettingsForm *ui;
 
@@ -34,7 +50,7 @@ private:
 
     const QString COLORS_LIST [8] = {"Black", "White", "Gray", "Red", "Green", "Blue", "Yellow", "Magenta"};
 
-    const QString defaultFontFamily = "Monospace";
+    const QString defaultFontFamily = "MS Shell Dlg 2";
     const int defaultFontSize = 8;
     const int defaultFontColor = 0;
     const int defaulBackgroundColor = 1;

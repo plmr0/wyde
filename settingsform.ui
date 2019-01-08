@@ -122,7 +122,7 @@
           <widget class="QPushButton" name="pushButton">
            <property name="geometry">
             <rect>
-             <x>279</x>
+             <x>204</x>
              <y>199</y>
              <width>76</width>
              <height>25</height>
@@ -323,11 +323,77 @@
             </property>
            </item>
           </widget>
+          <widget class="QLabel" name="label_6">
+           <property name="geometry">
+            <rect>
+             <x>240</x>
+             <y>95</y>
+             <width>47</width>
+             <height>13</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Example:</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEdit">
+           <property name="geometry">
+            <rect>
+             <x>240</x>
+             <y>110</y>
+             <width>161</width>
+             <height>51</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>This is example text</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_4">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>286</x>
+             <y>199</y>
+             <width>76</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Apply</string>
+           </property>
+          </widget>
          </widget>
          <widget class="QWidget" name="tab_4">
           <attribute name="title">
            <string>IDE</string>
           </attribute>
+          <widget class="QLabel" name="label_5">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>90</y>
+             <width>230</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>There are currently no settings for IDE.</string>
+           </property>
+          </widget>
          </widget>
         </widget>
        </widget>
