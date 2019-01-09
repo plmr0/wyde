@@ -4,11 +4,13 @@
 #include "settingsform.h"
 
 #include <QCloseEvent>
+#include <QDateTime>
 #include <QDesktopServices>
 #include <QException>
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProcess>
 #include <QSettings>
 #include <QStringList>
 #include <QTextEdit>
@@ -23,11 +25,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow::setAttribute(Qt::WA_ShowModal);
 
-    eFile = ' ';
+    eFile = ' '; // default file name
 
     QString name = qgetenv("USER"); // Getting %username%
         if (name.isEmpty())
             name = qgetenv("USERNAME");
+
+    // list of paths
 
     desktop = "C:\\Users\\" + name + "\\Desktop";
     sdkList = "C:\\Users\\" + name + "\\Documents\\wyde\\wyde_sdk.ini";
@@ -153,6 +157,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* ----------------------------- */
 
+    // Initial log
+
+    ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "IDE launched.\n");
+    if (setList.length() == 0)
+        ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "Python and WYS successully loaded.\n");
 }
 
 MainWindow::~MainWindow()
