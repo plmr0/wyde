@@ -33,9 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // list of paths
 
+    wydeF = "C:\\Users\\" + name + "\\Documents\\wyde";
     desktop = "C:\\Users\\" + name + "\\Desktop";
-    sdkList = "C:\\Users\\" + name + "\\Documents\\wyde\\wyde_sdk.ini";
-    editorList = "C:\\Users\\" + name + "\\Documents\\wyde\\wyde_editor.ini";
+    sdkList = wydeF + "\\wyde_sdk.ini";
+    editorList = wydeF + "\\wyde_editor.ini";
 
     /* INI-File reading */
 
@@ -413,7 +414,24 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-
+//    QProcess::startDetached("cmd.exe /C start cmd.exe");
+//    system("wys.py hello.wys");
+    if (eFile.length() > 3)
+    {
+        QDir::setCurrent(wydeF);
+        QString outputFile = "output.bat";
+        QFile file(outputFile);
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QTextStream stream(&file);
+            stream << "@echo off\n" + WYS_PATH + "\\wys.py" + " " + eFile + "\n" + "pause" << endl;
+        }
+        system("output.bat");
+    }
+    else
+    {
+        QMessageBox::warning(this, "Error", "No file found");
+    }
 }
 
 void MainWindow::on_textEdit_textChanged()

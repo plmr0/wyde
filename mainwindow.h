@@ -71,6 +71,7 @@ private:
     QString mainTitle = "WYDE - IDE for WYS";
 
     QString desktop;
+    QString wydeF;
     QString sdkList;
 
     QStringList _args;
