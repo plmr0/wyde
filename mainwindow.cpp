@@ -742,8 +742,8 @@ void MainWindow::on_pushButton_clicked()
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&file);
-        stream << "@echo off\n"
-                  + WYS_PATH + "\\wys.py" + " " + eFile + "\n" +
+        stream << "@echo off\n\""
+                  + WYS_PATH + "\\wys.py\"" + " \"" + eFile + "\"\n" +
                   "pause" << endl;
     }
     ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "Run \"" + eFile + "\".\n");
