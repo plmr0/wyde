@@ -43,12 +43,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QSettings sdk(sdkList, QSettings::IniFormat);
     QSettings editor(editorList, QSettings::IniFormat);
 
+    // Default settings for SDK file
+
     QFile iniFileSDK(sdkList);
     if (!iniFileSDK.exists())
     {
         sdk.setValue("PYTHON_PATH", "");
         sdk.setValue("WYS_PATH", "");
     }
+
+    // Default settings for Editor Settrings file
 
     QFile iniFileEditor(editorList);
     if (!iniFileEditor.exists())
@@ -62,6 +66,8 @@ MainWindow::MainWindow(QWidget *parent) :
         editor.setValue("UNDERLINED", "FALSE");
 
     }
+
+    // Gettings paths
 
     PYTHON_PATH = sdk.value("PYTHON_PATH", "").toString();
     WYS_PATH = sdk.value("WYS_PATH", "").toString();
@@ -619,6 +625,16 @@ void MainWindow::on_pushButton_clicked()
     QProcess::startDetached("cmd.exe /C start cmd.exe"); // Launching Command Prompt as a window
 
     */
+
+    if (!QFile(WYS_PATH + "\\wys.py").exists())
+    {
+        QMessageBox::critical(this, "Critical", "No WYS PATH set.\nSet WYS PATH in SDK Settings");
+
+        ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "WYS PATH not found error.\n");
+        ui->textBrowser->moveCursor(QTextCursor::End);
+
+        return;
+    }
 
     if ((eFile.length() < 3) || ((eFile.length() < 3) && (textChanged)))
     {

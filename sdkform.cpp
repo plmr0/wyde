@@ -75,6 +75,8 @@ void SDKForm::on_pushButton_clicked()
         QSettings sdk(sdkLoc, QSettings::IniFormat);
         sdk.setValue("PYTHON_PATH", "");
         sdk.setValue("PYTHON_PATH", pyPath);
+
+        QMessageBox::information(this, "Restart needed", "Restart the application to apply new settings.");
     }
     else
     {
@@ -100,6 +102,8 @@ void SDKForm::on_pushButton_2_clicked()
         QSettings sdk(sdkLoc, QSettings::IniFormat);
         sdk.setValue("WYS_PATH", "");
         sdk.setValue("WYS_PATH", wysPath);
+
+        QMessageBox::information(this, "Restart needed", "Restart the application to apply new settings.");
     }
     else
     {
