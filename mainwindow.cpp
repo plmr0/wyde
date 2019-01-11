@@ -197,7 +197,59 @@ void MainWindow::on_actionNew_triggered()
         action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Cancel);
         if (action == 0x00000800)
         {
-            on_actionSave_triggered();
+            if (alreadySaved)
+            {
+                QString str = ui->textEdit->toPlainText();
+                QStringList strList = str.split('\n');
+                QFile file(eFile);
+                if (file.open(QIODevice::WriteOnly))
+                {
+                    int i = 0;
+                    QTextStream stream(&file);
+                    stream.setCodec("UTF-8");
+                    while (true)
+                    {
+                        stream << strList.at(i) + "\n";
+                        i++;
+                        if (i==strList.size()) break;
+                    }
+                }
+                fullTitle = mainTitle + " - " + eFile;
+                textChanged = false;
+                this->setWindowTitle(fullTitle);
+            }
+            else
+            {
+                QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
+                if (outputFileLocation.length() == 0)
+                    return;
+                QFile f(outputFileLocation);
+                f.open(QIODevice::WriteOnly);
+                f.close();
+                eFile = outputFileLocation;
+                QString str = ui->textEdit->toPlainText();
+                QStringList strList = str.split('\n');
+                QFile file(eFile);
+                if (file.open(QIODevice::WriteOnly))
+                {
+                    int i = 0;
+                    QTextStream stream(&file);
+                    stream.setCodec("UTF-8");
+                    while (true)
+                    {
+                        stream << strList.at(i) + "\n";
+                        i++;
+                        if (i==strList.size()) break;
+                    }
+                }
+                eFile = outputFileLocation;
+                eFile = eFile.replace('/','\\');
+                alreadySaved = true;
+                fullTitle = mainTitle + " - " + eFile;
+                this->setWindowTitle(fullTitle);
+                textChanged = false;
+                ui->actionClose_file->setEnabled(true);
+            }
         }
         else if (action == 0x00800000) {}
         else return;
@@ -262,7 +314,59 @@ void MainWindow::on_actionOpen_triggered()
         action = QMessageBox::warning(this, "Unsaved changes", "You didn\'t save the current file.\nDo You want to save it?", QMessageBox::Save, QMessageBox::Discard, QMessageBox::Cancel);
         if (action == 0x00000800)
         {
-            on_actionSave_triggered();
+            if (alreadySaved)
+            {
+                QString str = ui->textEdit->toPlainText();
+                QStringList strList = str.split('\n');
+                QFile file(eFile);
+                if (file.open(QIODevice::WriteOnly))
+                {
+                    int i = 0;
+                    QTextStream stream(&file);
+                    stream.setCodec("UTF-8");
+                    while (true)
+                    {
+                        stream << strList.at(i) + "\n";
+                        i++;
+                        if (i==strList.size()) break;
+                    }
+                }
+                fullTitle = mainTitle + " - " + eFile;
+                textChanged = false;
+                this->setWindowTitle(fullTitle);
+            }
+            else
+            {
+                QString outputFileLocation = QFileDialog::getSaveFileName(this, tr("Create File"), desktop, tr("WYS files (*.wys)"));
+                if (outputFileLocation.length() == 0)
+                    return;
+                QFile f(outputFileLocation);
+                f.open(QIODevice::WriteOnly);
+                f.close();
+                eFile = outputFileLocation;
+                QString str = ui->textEdit->toPlainText();
+                QStringList strList = str.split('\n');
+                QFile file(eFile);
+                if (file.open(QIODevice::WriteOnly))
+                {
+                    int i = 0;
+                    QTextStream stream(&file);
+                    stream.setCodec("UTF-8");
+                    while (true)
+                    {
+                        stream << strList.at(i) + "\n";
+                        i++;
+                        if (i==strList.size()) break;
+                    }
+                }
+                eFile = outputFileLocation;
+                eFile = eFile.replace('/','\\');
+                alreadySaved = true;
+                fullTitle = mainTitle + " - " + eFile;
+                this->setWindowTitle(fullTitle);
+                textChanged = false;
+                ui->actionClose_file->setEnabled(true);
+            }
         }
         else if (action == 0x00800000) {}
         else return;
@@ -618,8 +722,7 @@ void MainWindow::on_pushButton_clicked()
     }
 
     QDir::setCurrent(wydeF);
-    QString outputFile = "output.bat";
-    QFile file(outputFile);
+    QFile file("output.bat");
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&file);
