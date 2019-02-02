@@ -168,7 +168,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "IDE launched.\n");
     if (setList.length() == 0)
-        ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "Python and WYS successully loaded.\n");
+        ui->textBrowser->insertPlainText("[" + QTime::currentTime().toString() + "] " + "Python and WYS successfully loaded.\n");
 }
 
 MainWindow::~MainWindow()
